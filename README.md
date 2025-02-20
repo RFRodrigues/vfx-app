@@ -14,6 +14,10 @@ REACT_APP_API_URL=https://www.alphavantage.co/query
 
 In this project, the following scripts are available:
 
+### `npm install`
+
+This is the first step to setup the project and be able to run it.
+
 ### `npm start`
 
 Runs the application in development mode.  
