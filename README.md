@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application, created with React, simulates a login with basic validation and displays Forex values in a table.  
+It has 2 pages: Login and Home, where the latter can only be accessed after a successful login.  
+Some aspects have been considered to keep the application functional on both desktop and mobile devices.  
+On mobile, a "burger" menu is available, and you can also log out(just a hidden functionality).  
+  
+In order to have the full experience, you need to generate an Api key and update API_KEY_HERE with the generated one, create an .env file and it should look like this 
+
+REACT_APP_API_KEY={API_KEY_HERE}<br />
+REACT_APP_API_URL=https://www.alphavantage.co/query
 
 ## Available Scripts
 
-In the project directory, you can run:
+In this project, the following scripts are available:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Runs the application in development mode.  
+To view it, you can access [http://localhost:3000](http://localhost:3000) in the browser.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the application's tests and displays the results.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the application and prepares a version that can be used for production environments.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Components
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Login
 
-### `npm run eject`
+Component responsible for validating the login data. It redirects to the Home page when authentication is successful, or it shows an error otherwise.  
+The validation is basic, requiring that the fields be filled with at least 6 characters.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Home
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Component that displays a table with daily Forex values obtained from an API. When the values from the dropdowns are changed, an API call is made to update the table values.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Tests
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Two files with tests for both developed components were created. These tests check the presence of elements on the page, verify actions, and validate results.  
+To test the API, a mock was created to always return the same data for testing purposes.

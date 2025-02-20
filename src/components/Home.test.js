@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import Home from "./Home";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import '@testing-library/jest-dom';
 
 // Mock API response before each test
 beforeEach(() => {
@@ -43,8 +44,9 @@ test("currency dropdowns change value", async () => {
     </MemoryRouter>
   );
 
-  const currencyFrom = screen.getByRole("combobox", { name: "Currency From" });
-  const currencyTo = screen.getByRole("combobox", { name: "Currency To" });
+  const currencyFrom = screen.getByTestId("currency-from");
+  const currencyTo = screen.getByTestId("currency-to");
+
 
   await userEvent.selectOptions(currencyFrom, "USD");
   await userEvent.selectOptions(currencyTo, "GBP");
@@ -60,11 +62,9 @@ test("fetches and displays Forex data", async () => {
     </MemoryRouter>
   );
 
-  // Click refresh button
   const refreshButton = screen.getByRole("button", { name: "Refresh" });
   await userEvent.click(refreshButton);
 
-  // Wait for UI update
   await waitFor(() => {
     expect(screen.getByText("1.10000")).toBeInTheDocument();
     expect(screen.getByText("1.12000")).toBeInTheDocument();

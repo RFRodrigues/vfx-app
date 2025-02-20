@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import testData from "./test.json";
 
 const Home = () => {
   const [currencyFrom, setCurrencyFrom] = useState("GBP");
@@ -15,7 +14,7 @@ const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const API_KEY = "yourAPIKeyHere"; // Replace with your actual API key
+  const API_KEY = process.env.REACT_APP_API_KEY;
   const isFirstRender = useRef(true);
 
   const fetchForexData = async () => {
@@ -25,20 +24,17 @@ const Home = () => {
     }
 
     let data;
-    if (process.env.NODE_ENV === "development") {
-      console.log("Using test data");
-      data = testData;
-    } else {
-      try {
-        const response = await fetch(
-          `https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=${currencyFrom}&to_symbol=${currencyTo}&apikey=${API_KEY}`
-        );
-        data = await response.json();
-      } catch (error) {
-        console.error("Error fetching Forex data:", error);
-        return;
-      }
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}?function=FX_DAILY&from_symbol=${currencyFrom}&to_symbol=${currencyTo}&apikey=${API_KEY}`
+      );
+      data = await response.json();
+    } catch (error) {
+      console.error("Error fetching Forex data:", error);
+      return;
     }
+
 
     if (data["Time Series FX (Daily)"]) {
       const latestDate = Object.keys(data["Time Series FX (Daily)"])[0];
@@ -86,7 +82,7 @@ const Home = () => {
             className="text-white text-2xl sm:hidden cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            ☰
+            <img src="/burger.svg" alt="menu" className="w-6 h-6 aspect-square" />
           </button>
         </div>
       </header>
@@ -105,9 +101,7 @@ const Home = () => {
 
       {/* Main Content */}
       <div className="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
-        {/* Title, Last Refresh & Currency Selection */}
         <div className="flex flex-wrap flex-col sm:flex-row sm:flex-nowrap items-start sm:items-center gap-6">
-          {/* Title & Last Refresh */}
           <div>
             <h2 className="text-xl font-bold text-gray-800">Forex Daily Prices</h2>
             <span className="text-sm text-gray-500">Last refresh: {lastUpdated}</span>
@@ -119,6 +113,7 @@ const Home = () => {
               className="p-2 border rounded w-full sm:w-auto"
               value={currencyFrom}
               onChange={(e) => setCurrencyFrom(e.target.value)}
+              data-testid="currency-from"
             >
               <option value="GBP">GBP</option>
               <option value="USD">USD</option>
@@ -129,6 +124,7 @@ const Home = () => {
               className="p-2 border rounded w-full sm:w-auto"
               value={currencyTo}
               onChange={(e) => setCurrencyTo(e.target.value)}
+              data-testid="currency-to"
             >
               <option value="EUR">EUR</option>
               <option value="USD">USD</option>
